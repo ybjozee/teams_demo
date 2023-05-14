@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Add new Team {% endblock %}
+
+{% block body %}
+    <div class="my-5 mx-auto" style="width: 60%;">
+        {% if errors.extra is defined %}
+            <div class="alert alert-danger" role="alert">
+                {{ errors.extra }}
+            </div>
+        {% endif %}
+        <form class="needs-validation" novalidate id="form" method="post">
+            <div class="mb-3">
+                <label for="player" class="form-label">Player</label>
+                <select class="form-select mb-3" id="player" name="player" required>
+                    <option {% if values.player is not defined %}selected {% endif %} disabled value="">
+                        Select Player
+                    </option>
+                    {% for player in players %}
+                        <option value="{{ player.publicId }}"
+                                {% if values.player is defined and values.player == player.publicId %}
+                        selected
+                                {% endif %}>
+                            {{ player.name }} {{ player.surname }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a country.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="buyer" class="form-label">Buyer</label>
+                <select class="form-select mb-3" id="buyer" name="buyer" required>
+                    <option {% if values.buyer is not defined %}selected {% endif %} disabled value="">
+                        Select Buyer
+                    </option>
+                    {% for team in teams %}
+                        <option value="{{ team.publicId }}"
+                                {% if values.buyer is defined and values.buyer == team.publicId %}
+                        selected
+                                {% endif %}>
+                            {{ team.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a team.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="teamBalance" class="form-label">Sale Amount</label>
+                <input type="number" id="teamBalance" placeholder="Enter sale amount" name="amount" step="0.01"
+                        {% if errors.amount is defined %}
+                            value="{{ errors.amount.value }}"
+                            class="form-control is-invalid"
+                        {% else %}
+                            value="{{ values.amount ?? '' }}"
+                            class="form-control"
+                        {% endif %}
+                       required>
+                <div class="invalid-feedback">
+                    {% if errors.amount is defined %}
+                        {{ errors.amount.error }}
+                    {% else %}
+                        Please provide the amount.
+                    {% endif %}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('js/formValidator.js') }}">
+    </script>
+{% endblock %}

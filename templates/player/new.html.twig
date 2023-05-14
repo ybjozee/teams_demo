@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Add new Team {% endblock %}
+
+{% block body %}
+    <div class="my-5 mx-auto" style="width: 60%;">
+        <form class="needs-validation" novalidate id="form" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Player Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter team name"
+                       value="{{ values.name ?? '' }}" required>
+                <div class="invalid-feedback">
+                    {% if errors.name is defined %}
+                        {{ errors.name.error }}
+                    {% else %}
+                        Please enter the team name.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="surname" class="form-label">Player Name</label>
+                <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter team name"
+                       value="{{ values.surname ?? '' }}" required>
+                <div class="invalid-feedback">
+                    {% if errors.surname is defined %}
+                        {{ errors.surname.error }}
+                    {% else %}
+                        Please enter the team name.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="team" class="form-label">Team</label><select class="form-select" id="team" name="team" required>
+                    <option {% if values.team is not defined %}selected {% endif %} disabled value="">
+                        Select Team
+                    </option>
+                    {% for team in teams %}
+                        <option value="{{ team.publicId }}"
+                                {% if values.team is defined and values.team == team.publicId %}
+                        selected
+                                {% endif %}>
+                            {{ team.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a team.
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('js/formValidator.js') }}">
+    </script>
+{% endblock %}

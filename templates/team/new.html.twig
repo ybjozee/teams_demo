@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Add new Team {% endblock %}
+
+{% block body %}
+    <div class="my-5 mx-auto" style="width: 60%;">
+        <form class="needs-validation" novalidate id="form" method="post">
+            <div class="mb-3">
+                <label for="teamName" class="form-label">Team Name</label>
+                <input type="text" id="teamName" name="name" placeholder="Enter team name"
+                        {% if errors.name is defined %}
+                            value="{{ errors.name.value }}"
+                            class="form-control is-invalid"
+                        {% else %}
+                            class="form-control"
+                            value="{{ values.name ?? '' }}"
+                        {% endif %}
+                       required>
+                <div class="invalid-feedback">
+                    {% if errors.name is defined %}
+                        {{ errors.name.error }}
+                    {% else %}
+                        Please enter the team name.
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="teamCountry" class="form-label">Country</label>
+                <select class="form-select" id="teamCountry" name="country" required>
+                    <option {% if values.country is not defined %}selected {% endif %} disabled value="">
+                        Select Country
+                    </option>
+                    {% for country in countries %}
+                        <option value="{{ country.id }}"
+                                {% if values.country is defined and values.country == country.id %}
+                        selected
+                                {% endif %}>
+                            {{ country.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">
+                    Please select a country.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="teamBalance" class="form-label">Balance</label>
+                <input type="number" id="teamBalance" placeholder="Enter team balance" name="balance" step="0.01"
+                        {% if errors.balance is defined %}
+                            value="{{ errors.balance.value }}"
+                            class="form-control is-invalid"
+                        {% else %}
+                            class="form-control"
+                            value="{{ values.balance ?? '' }}"
+                        {% endif %}
+                       required>
+                <div class="invalid-feedback">
+                    {% if errors.balance is defined %}
+                        {{ errors.balance.error }}
+                    {% else %}
+                        Please provide the balance.
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="mb-3" id="addPlayerButtonDiv"
+                 {% if values.players is defined %}style="display: none"{% endif %}>
+                <button type="button" class="btn btn-link" onclick="handleAddPlayerButtonClick()">Add Players</button>
+            </div>
+
+            {% if values.players is defined %}
+                {% for player in values.players %}
+                    <div class="row g-3 mb-3 playerInput" id="{{ 'player_' ~ loop.index0 }}">
+                        <div class="col-5">
+                            <input type="text"
+                                    {% if errors.players[loop.index0].name is defined %}
+                                        class="form-control is-invalid"
+                                    {% else %}
+                                        class="form-control"
+                                    {% endif %}
+                                   placeholder="Name"
+                                   name="{{ 'players[' ~ loop.index0 ~ '][name]' }}" value="{{ player.name ?? '' }}"
+                                   required>
+                            <div class="invalid-feedback">
+                                {% if errors.players[loop.index0].name is defined %}
+                                    {{ errors.players[loop.index0].name.error }}
+                                {% else %}
+                                    Please provide the player's name.
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <input type="text"
+                                    {% if errors.players[loop.index0].surname is defined %}
+                                        class="form-control is-invalid"
+                                    {% else %} class="form-control" {% endif %} placeholder="Surname"
+                                   name="{{ 'players[' ~ loop.index0 ~ '][surname]' }}"
+                                   value="{{ player.surname ?? '' }}" required>
+                            <div class="invalid-feedback">
+                                {% if errors.players[loop.index0].surname is defined %}
+                                    {{ errors.players[loop.index0].surname.error }}
+                                {% else %}
+                                    Please provide the player's surname.
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="input-group">
+                                <button class="btn" type="button" onclick="handleAddPlayerButtonClick()">
+                                    <i class="bi bi-patch-plus text-success" style="font-size: 1.3rem"></i>
+                                </button>
+                                <button class="btn" type="button" onclick="deletePlayerField({{ loop.index0 }})">
+                                    <i class="bi bi-trash3 text-danger" style="font-size: 1.3rem"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('js/team.js') }}"></script>
+    <script src="{{ asset('js/formValidator.js') }}"></script>
+{% endblock %}

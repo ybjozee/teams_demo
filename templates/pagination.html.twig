@@ -1,0 +1,31 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if (paginator.currentPage is not same as (1) ) %}
+            <li class="page-item">
+                <a
+                        class="page-link"
+                        href="{{ path(pathName , {'page' : max([1, paginator.currentPage - 1])}) }}"
+                        aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for i in 1..max([paginator.lastPage, 1]) %}
+            <li>
+                <a class="page-link {% if i is same as (paginator.currentPage) %}active{% endif %}"
+                   href="{{ path(pathName, {'page': i}) }}">
+                    {{ i }}
+                </a>
+            </li>
+        {% endfor %}
+        {% if paginator.lastPage is not same as (paginator.currentPage) %}
+            <li class="page-item">
+                <a class="page-link"
+                   href="{{ path(pathName, {'page' : min([paginator.lastPage, paginator.currentPage + 1])}) }}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

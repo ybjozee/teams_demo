@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Teams{% endblock %}
+
+{% block body %}
+    <div class="m-3">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Country</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Number of players</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in teams.results %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ team.name }}</td>
+                    <td>{{ team.country.name }}</td>
+                    <td>$ {{ team.balance | number_format(2, '.', ',') }}</td>
+                    <td>{{ team.players.count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'pagination.html.twig' with {'paginator': teams, 'pathName' : 'app_team_index'} only %}
+    </div>
+{% endblock %}

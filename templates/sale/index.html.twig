@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}All Sales{% endblock %}
+
+{% block body %}
+    <div class="m-3">
+        {% if feedback is defined %}
+            <div class="alert {{ feedback.isApproved ? 'alert-success':'alert-danger' }}" role="alert">
+                {{ feedback.message }}
+            </div>
+        {% endif %}
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Player</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Status</th>
+                {% if app.user is not null %}
+                    <th scope="col" class="text-center">Action</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for sale in sales.results %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ sale.player.fullName }}</td>
+                    <td>{{ sale.buyer.name }}</td>
+                    <td>{{ sale.seller.name }}</td>
+                    <td>$ {{ sale.amount | number_format(2, '.', ',') }}</td>
+                    <td>{{ sale.status.value |capitalize }}</td>
+                    {% if app.user is not null %}
+                        <td class="text-center">
+                            {% if sale.isCompleted %}
+                                <p style="color: red"><b>NO FURTHER ACTION AVAILABLE</b></p>
+                            {% else %}
+                                <a href="{{ path('app_sale_complete', {'publicId':sale.publicId, 'status':'APPROVED'}) }}">
+                                    Approve
+                                </a>
+                                |
+                                <a href="{{ path('app_sale_complete', {'publicId':sale.publicId, 'status':'REJECTED'}) }}">
+                                    Reject
+                                </a>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% include 'pagination.html.twig' with {'paginator': sales, 'pathName' : 'app_sale_index'} only %}
+    </div>
+{% endblock %}
