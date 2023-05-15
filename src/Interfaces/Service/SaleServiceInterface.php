@@ -7,6 +7,12 @@ use App\RequestDTO\SaleDTO;
 
 interface SaleServiceInterface {
 
+    public function getSales(int $page)
+    : array;
+
+    public function getDataForInitiatingSale()
+    : array;
+
     /**
      * @throws ExtraValidationException
      */

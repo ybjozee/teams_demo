@@ -83,10 +83,10 @@ class Team {
         return $this->publicId;
     }
 
-    public function canFundTransfer(float $amount)
+    public function cannotFundTransfer(float $amount)
     : bool {
 
-        return $this->balance > $amount;
+        return $this->balance < $amount;
     }
 
     public function credit(float $amount)

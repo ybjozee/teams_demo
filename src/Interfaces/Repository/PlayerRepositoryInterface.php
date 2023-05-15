@@ -10,7 +10,7 @@ interface PlayerRepositoryInterface {
     public function save(Player $entity, bool $flush = false)
     : void;
 
-    public function getPlayersForPage(int $page = 1)
+    public function getPlayersForPage(int $page)
     : Paginator;
 
     public function getPlayer(string $publicId)

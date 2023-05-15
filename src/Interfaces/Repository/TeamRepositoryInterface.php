@@ -7,7 +7,7 @@ use App\Pagination\Paginator;
 
 interface TeamRepositoryInterface {
 
-    public function getTeamsForPage(int $page = 1)
+    public function getTeamsForPage(int $page)
     : Paginator;
 
     public function getTeam(string $publicId)

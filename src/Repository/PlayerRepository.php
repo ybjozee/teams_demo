@@ -33,7 +33,7 @@ class PlayerRepository extends ServiceEntityRepository implements PlayerReposito
         }
     }
 
-    public function getPlayersForPage(int $page = 1)
+    public function getPlayersForPage(int $page)
     : Paginator {
 
         $queryBuilder = $this->createQueryBuilder('player')->orderBy('player.name', 'ASC');

@@ -10,7 +10,7 @@ interface SaleRepositoryInterface {
     public function save(Sale $entity, bool $flush = false)
     : void;
 
-    public function getSalesForPage(int $page = 1)
+    public function getSalesForPage(int $page)
     : Paginator;
 
     public function getSale(string $publicId)

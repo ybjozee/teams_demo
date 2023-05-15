@@ -17,10 +17,10 @@
 
             <label for="inputUsername" class="my-3">Username <b>demo</b></label>
             <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control"
-                   placeholder="demo12345" autocomplete="username" required autofocus>
+                   placeholder="demo" autocomplete="username" required autofocus>
             <label for="inputPassword" class="my-3">Password <b>demo12345</b></label>
             <input type="password" name="password" id="inputPassword" class="form-control"
-                   placeholder="demo12345!" autocomplete="current-password" required>
+                   placeholder="demo12345" autocomplete="current-password" required>
 
             <input type="hidden" name="_csrf_token"
                    value="{{ csrf_token('authenticate') }}"

@@ -33,7 +33,7 @@ class SaleRepository extends ServiceEntityRepository implements SaleRepositoryIn
         }
     }
 
-    public function getSalesForPage(int $page = 1)
+    public function getSalesForPage(int $page)
     : Paginator {
 
         $queryBuilder = $this->createQueryBuilder('sale')->orderBy('sale.amount', 'DESC');

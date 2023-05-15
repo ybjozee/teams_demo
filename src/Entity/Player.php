@@ -77,9 +77,9 @@ class Player {
         return "{$this->name} {$this->surname}";
     }
 
-    public function canJoinTeam(Team $team)
+    public function cannotJoinTeam(Team $team)
     : bool {
 
-        return $this->team !== $team;
+        return $this->team === $team;
     }
 }

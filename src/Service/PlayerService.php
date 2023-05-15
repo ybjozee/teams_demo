@@ -23,4 +23,20 @@ class PlayerService implements PlayerServiceInterface {
         $player = new Player($dto->getName(), $dto->getSurname(), $team);
         $this->playerRepository->save($player, true);
     }
+
+    public function getPlayers(int $page)
+    : array {
+
+        return [
+            'players' => $this->playerRepository->getPlayersForPage($page),
+        ];
+    }
+
+    public function getDataForAddingPlayer()
+    : array {
+
+        return [
+            'teams' => $this->teamRepository->getAllTeams(),
+        ];
+    }
 }

@@ -43,7 +43,7 @@ class TeamRepository extends ServiceEntityRepository implements TeamRepositoryIn
         }
     }
 
-    public function getTeamsForPage(int $page = 1)
+    public function getTeamsForPage(int $page)
     : Paginator {
 
         $queryBuilder = $this->createQueryBuilder('team')->orderBy('team.name', 'ASC');

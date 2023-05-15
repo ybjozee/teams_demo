@@ -20,6 +20,23 @@ class SaleService implements SaleServiceInterface {
     ) {
     }
 
+    public function getSales(int $page)
+    : array {
+
+        return [
+            'sales' => $this->saleRepository->getSalesForPage($page),
+        ];
+    }
+
+    public function getDataForInitiatingSale()
+    : array {
+
+        return [
+            'teams'   => $this->teamRepository->getAllTeams(),
+            'players' => $this->playerRepository->getAllPlayers(),
+        ];
+    }
+
     public function initiateSale(SaleDTO $dto)
     : void {
 
@@ -28,10 +45,11 @@ class SaleService implements SaleServiceInterface {
         $amount = $dto->getAmount();
         $seller = $player->getTeam();
 
-        if (!$player->canJoinTeam($buyer)) {
+        if ($player->cannotJoinTeam($buyer)) {
             throw new ExtraValidationException("{$player->getFullName()} already belongs to {$buyer->getName()}");
         }
-        if (!$buyer->canFundTransfer($amount)) {
+
+        if ($buyer->cannotFundTransfer($amount)) {
             throw new ExtraValidationException('Insufficient funds to initiate this transfer');
         }
 
@@ -50,6 +68,12 @@ class SaleService implements SaleServiceInterface {
         $message =
             "{$sale->getPlayer()->getFullName()}'s sale to {$sale->getBuyer()->getName()} was ".strtolower($status);
 
-        return ['message' => $message, 'isApproved' => SaleStatus::isApproved($saleStatus)];
+        return [
+            'feedback' => [
+                'message'    => $message,
+                'isApproved' => SaleStatus::isApproved($saleStatus),
+            ],
+            'sales'    => $this->saleRepository->getSalesForPage(1),
+        ];
     }
 }
