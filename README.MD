@@ -1,8 +1,3 @@
-# Internet Projects Ltd
-
-## Teams Demo Application
-
-This is a demo application required as part of the recruitment process
 
 System Requirements
 ------------
